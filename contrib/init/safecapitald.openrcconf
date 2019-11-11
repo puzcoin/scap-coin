@@ -1,0 +1,26 @@
+# /etc/conf.d/safecapitald: config file for /etc/init.d/safecapitald
+
+# Config file location
+#BITCOIND_CONFIGFILE="/etc/safecapital/safecapital.conf"
+
+# What directory to write pidfile to?  (created and owned by $BITCOIND_USER)
+#BITCOIND_PIDDIR="/var/run/safecapitald"
+
+# What filename to give the pidfile
+#BITCOIND_PIDFILE="${BITCOIND_PIDDIR}/safecapitald.pid"
+
+# Where to write safecapitald data (be mindful that the blockchain is large)
+#BITCOIND_DATADIR="/var/lib/safecapitald"
+
+# User and group to own safecapitald process
+#BITCOIND_USER="safecapital"
+#BITCOIND_GROUP="safecapital"
+
+# Path to safecapitald executable
+#BITCOIND_BIN="/usr/bin/safecapitald"
+
+# Nice value to run safecapitald under
+#BITCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+BITCOIND_OPTS=""

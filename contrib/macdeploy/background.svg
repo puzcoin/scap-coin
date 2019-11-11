@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="-2334 2868.9 1000 640" style="enable-background:new -2334 2868.9 1000 640;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:url(#SVGID_1_);}
+	.st1{fill:#808080;}
+	.st2{font-family:'Tuffy-Regular';}
+	.st3{font-size:86px;}
+</style>
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-4665.666" y1="6373.417" x2="-4664.666" y2="6372.417" gradientTransform="matrix(1000 0 0 -640 4663332 4081856)">
+	<stop  offset="0" style="stop-color:#EFEFEF"/>
+	<stop  offset="0.33" style="stop-color:#EFEFEF"/>
+	<stop  offset="0.8" style="stop-color:#CDCDCD"/>
+	<stop  offset="1" style="stop-color:#CCCCCC"/>
+</linearGradient>
+<rect x="-2334" y="2868.9" class="st0" width="1000" height="640"/>
+<g transform="translate(500,0) scale(0.9, 1)">
+	<text transform="matrix(1 0 0 1 -2863.9521 2982.9497)" class="st1 st2 st3">SAFE CAPITAL</text>
+</g>
+<g transform="translate(0.000000,640.000000) scale(0.100000,-0.100000)">
+	<path d="M-18345-24984.5c-24-23-25-29-25-165v-140h-306h-306l-29-29c-29-29-29-31-29-141s0-112,29-141l29-29h306h306v-140
+		c0-136,1-142,25-165c16-17,35-25,57-25c29,0,72,32,306,226c180,149,274,233,278,250c13,53-2,70-278,299c-235,194-277,225-306,225
+		C-18310-24959.5-18329-24967.5-18345-24984.5z"/>
+</g>
+</svg>

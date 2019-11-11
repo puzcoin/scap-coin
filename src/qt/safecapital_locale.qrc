@@ -1,0 +1,28 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/translations">
+        <file alias="bg">locale/safecapital_bg.qm</file>
+        <file alias="ca">locale/safecapital_ca.qm</file>
+        <file alias="cs">locale/safecapital_cs.qm</file>
+        <file alias="da">locale/safecapital_da.qm</file>
+        <file alias="de">locale/safecapital_de.qm</file>
+        <file alias="en">locale/safecapital_en.qm</file>
+        <file alias="en_US">locale/safecapital_en_US.qm</file>
+        <file alias="es">locale/safecapital_es.qm</file>
+        <file alias="fi">locale/safecapital_fi.qm</file>
+        <file alias="fr_FR">locale/safecapital_fr_FR.qm</file>
+        <file alias="it">locale/safecapital_it.qm</file>
+        <file alias="ja">locale/safecapital_ja.qm</file>
+        <file alias="ko_KR">locale/safecapital_ko_KR.qm</file>
+        <file alias="nl">locale/safecapital_nl.qm</file>
+        <file alias="pl">locale/safecapital_pl.qm</file>
+        <file alias="pt">locale/safecapital_pt.qm</file>
+        <file alias="pt_BR">locale/safecapital_pt_BR.qm</file>
+        <file alias="ro_RO">locale/safecapital_ro_RO.qm</file>
+        <file alias="ru">locale/safecapital_ru.qm</file>
+        <file alias="sk">locale/safecapital_sk.qm</file>
+        <file alias="sv">locale/safecapital_sv.qm</file>
+        <file alias="uk">locale/safecapital_uk.qm</file>
+        <file alias="zh_CN">locale/safecapital_zh_CN.qm</file>
+        <file alias="zh_TW">locale/safecapital_zh_TW.qm</file>
+    </qresource>
+</RCC>

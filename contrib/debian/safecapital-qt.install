@@ -1,0 +1,6 @@
+usr/local/bin/safecapital-qt usr/bin
+share/pixmaps/bitcoin32.xpm usr/share/pixmaps
+share/pixmaps/bitcoin16.xpm usr/share/pixmaps
+share/pixmaps/bitcoin128.png usr/share/pixmaps
+debian/safecapital-qt.desktop usr/share/applications
+debian/safecapital-qt.protocol usr/share/kde4/services/

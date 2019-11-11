@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=SafeCapital
+Comment=SafeCapital P2P Cryptocurrency
+Comment[fr]=SafeCapital, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=SafeCapital, eşten eşe kriptografik sanal para birimi
+Exec=safecapital-qt %u
+Terminal=false
+Type=Application
+Icon=safecapital128
+MimeType=x-scheme-handler/safecapital;
+Categories=Office;Finance;
