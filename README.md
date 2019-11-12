@@ -55,113 +55,106 @@ More information at [SafeCapital.io](https://www.SafeCapital.io)
 <td>0.27 SCAP (90%)</td>
 </tr>
 <tr>
-<th scope="row">43201-64800</th>
+<th scope="row">21601-32400</th>
 <th scope="row">0.4 SCAP</th>
 <td>0.04 SCAP (10%)</td>
 <td>0.36 SCAP (90%)</td>
 </tr>
 <tr>
-<th scope="row">64801-87840</th>
+<th scope="row">32401-43200</th>
 <th scope="row">0.5 SCAP</th>
 <td>0.05 SCAP (10%)</td>
 <td>0.45 SCAP (90%)</td>
 </tr>
 <tr>
-<th scope="row">87841-106560</th>
+<th scope="row">43201-54000</th>
 <th scope="row">0.6 SCAP</th>
 <td>0.06 SCAP (10%)</td>
 <td>0.54 SCAP (90%)</td>
 </tr>
 <tr>
-<th scope="row">106561-129600</th>
+<th scope="row">54001-64800</th>
 <th scope="row">0.7 SCAP</th>
 <td>0.07 SCAP (10%)</td>
 <td>0.63 SCAP (90%)</td>
 </tr>
 <tr>
-<th scope="row">129601-151200</th>
+<th scope="row">64801-75600</th>
 <th scope="row">0.8 SCAP</th>
 <td>0.08 SCAP (10%)</td>
 <td>0.72 SCAP (90%)</td>
 </tr>
 <tr>
-<th scope="row">151201-172800</th>
+<th scope="row">75601-86400</th>
 <th scope="row">0.9 SCAP</th>
 <td>0.09 SCAP (10%)</td>
 <td>0.81 SCAP (90%)</td>
 </tr>
 <tr>
-<th scope="row">172801-194400</th>
-<th scope="row">1.0 SCAP</th>
+<th scope="row">86401-97200</th>
+<th scope="row">1 SCAP</th>
 <td>0.1 SCAP (10%)</td>
 <td>0.9 SCAP (90%)</td>
 </tr>
 <tr>
-<th scope="row">194401-216000</th>
+<th scope="row">97201-108000</th>
 <th scope="row">1.1 SCAP</th>
 <td>0.11 SCAP (10%)</td>
 <td>0.99 SCAP (90%)</td>
 </tr>
 <tr>
-<th scope="row">216001-237600</th>
+<th scope="row">108001-118800</th>
 <th scope="row">1.2 SCAP</th>
 <td>0.12 SCAP (10%)</td>
 <td>1.08 SCAP (90%)</td>
 </tr>
 <tr>
-<th scope="row">237601-259200</th>
+<th scope="row">118801-129600</th>
 <th scope="row">1.3 SCAP</th>
 <td>0.13 SCAP (10%)</td>
 <td>1.17 SCAP (90%)</td>
 </tr>
 <tr>
-<th scope="row">259201-280800</th>
+<th scope="row">129601-140400</th>
 <th scope="row">1.4 SCAP</th>
 <td>0.14 SCAP (10%)</td>
 <td>1.26 SCAP (90%)</td>
 </tr>
 <tr>
-<th scope="row">280801-302400</th>
+<th scope="row">140401-151200</th>
 <th scope="row">1.5 SCAP</th>
 <td>0.15 SCAP (10%)</td>
 <td>1.35 SCAP (90%)</td>
 </tr>
 <tr>
-<th scope="row">302401-324000</th>
+<th scope="row">151201-162000</th>
 <th scope="row">1.6 SCAP</th>
 <td>0.16 SCAP (10%)</td>
 <td>1.44 SCAP (90%)</td>
 </tr>
 <tr>
-<th scope="row">324001-345600</th>
+<th scope="row">162001-172800</th>
 <th scope="row">1.7 SCAP</th>
-<td>0.17 0SCAP (10%)</td>
+<td>0.17 SCAP (10%)</td>
 <td>1.53 SCAP (90%)</td>
 </tr>
 <tr>
-<th scope="row">345601-367200</th>
+<th scope="row">172801-183600</th>
 <th scope="row">1.8 SCAP</th>
 <td>0.18 SCAP (10%)</td>
 <td>1.62 SCAP (90%)</td>
 </tr>
 <tr>
-<th scope="row">367201-388800</th>
+<th scope="row">183601-194400</th>
 <th scope="row">1.9 SCAP</th>
 <td>0.19 SCAP (10%)</td>
 <td>1.71 SCAP (90%)</td>
 </tr>
 <tr>
-<th scope="row">388801-525600</th>
+<th scope="row">194401-205200</th>
 <th scope="row">2 SCAP</th>
 <td>0.2 SCAP (10%)</td>
 <td>1.8 SCAP (90%)</td>
-</tr>
-<tr>
-<tr>
-<th scope="row">525601-1,051,200</th>
-<th scope="row">2.1 SCAP</th>
-<td>0.21 SCAP (10%)</td>
-<td>1.89 SCAP (90%)</td>
 </tr>
 <tr>						
 <th scope="row" colspan=4>After 2 years, each year, the reward will be reduced with 40%</th>
