@@ -384,7 +384,7 @@ public:
     CAmount GetBalance() const;
     CAmount GetUnconfirmedBalance() const;
     CAmount GetImmatureBalance() const;
-    CAmount GetImmatureCollateral(const CWalletTx* ) const;
+    CAmount GetImmatureCollateral() const;
     CAmount GetAnonymizableBalance() const;
     CAmount GetAnonymizedBalance() const;
     double GetAverageAnonymizedRounds() const;

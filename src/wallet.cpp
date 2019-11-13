@@ -1375,25 +1375,24 @@ CAmount CWallet::GetImmatureBalance() const
         for (map<uint256, CWalletTx>::const_iterator it = mapWallet.begin(); it != mapWallet.end(); ++it) {
             const CWalletTx* pcoin = &(*it).second;
             nTotal += pcoin->GetImmatureCredit();
-            
-            // add immature collateral to the immature count
-            nTotal += GetImmatureCollateral( pcoin );
         }
+    nTotal += GetImmatureCollateral();    
     }
     return nTotal;
 }
 
-CAmount CWallet::GetImmatureCollateral(const CWalletTx* pcoin) const
+CAmount CWallet::GetImmatureCollateral() const
 {
     CAmount nTotal = 0;
-    int nDepth = pcoin->GetDepthInMainChain(false);
-    for (unsigned int i = 0; i < pcoin->vout.size(); i++) {
-        if (!IsSpent(pcoin->GetHash(), i) && pcoin->vout[i].nValue == Params().MasternodeCollateral()
-            && Params().COLLATERAL_MATURITY() > nDepth
-            && chainActive.Height() > Params().CollateralMaturityEnforcementHeight())
-        {
-            nTotal+= pcoin->vout[i].nValue;
-        }
+    
+    vector<COutput> vCoins;
+    pwalletMain->AvailableCoins(vCoins, true, NULL, false, ONLY_MNCOLLATERAL);
+    BOOST_FOREACH (const COutput& out, vCoins) {
+        if (out.tx->vout[out.i].nValue == Params().MasternodeCollateral() && Params().COLLATERAL_MATURITY() > out.tx->GetDepthInMainChain(false)
+            && chainActive.Height() > Params().CollateralMaturityEnforcementHeight()) 
+            { //exactly
+                nTotal+= out.tx->vout[out.i].nValue;
+            }
     }
     return nTotal;
 }
