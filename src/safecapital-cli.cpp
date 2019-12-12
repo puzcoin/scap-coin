@@ -195,9 +195,10 @@ int CommandLineRPC(int argc, char* argv[])
                 if (error.type() != null_type) {
                     // Error
                     const int code = find_value(error.get_obj(), "code").get_int();
+                    const std::string message = find_value(error.get_obj(), "message").get_str();
                     if (fWait && code == RPC_IN_WARMUP)
                         throw CConnectionFailed("server in warmup");
-                    strPrint = "error: " + write_string(error, false);
+                    strPrint = "error: " + message;
                     nRet = abs(code);
                 } else {
                     // Result
