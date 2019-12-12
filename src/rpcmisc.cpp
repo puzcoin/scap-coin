@@ -58,6 +58,7 @@ Value getinfo(const Array& params, bool fHelp)
             "  \"protocolversion\": xxxxx,   (numeric) the protocol version\n"
             "  \"walletversion\": xxxxx,     (numeric) the wallet version\n"
             "  \"balance\": xxxxxxx,         (numeric) the total safecapital balance of the wallet\n"
+            "  \"immature_balance\": xxxxxx, (numeric) the immature safecapital balance of the wallet\n"            
             "  \"privatesend_balance\": xxxxxx, (numeric) the anonymized safecapital balance of the wallet\n"
             "  \"blocks\": xxxxxx,           (numeric) the current number of blocks processed in the server\n"
             "  \"timeoffset\": xxxxx,        (numeric) the time offset\n"
@@ -85,7 +86,10 @@ Value getinfo(const Array& params, bool fHelp)
 #ifdef ENABLE_WALLET
     if (pwalletMain) {
         obj.push_back(Pair("walletversion", pwalletMain->GetVersion()));
-        obj.push_back(Pair("balance", ValueFromAmount(pwalletMain->GetBalance())));
+        CAmount nImmatureBalance = pwalletMain->GetImmatureBalance();
+        obj.push_back(Pair("balance", ValueFromAmount(pwalletMain->GetBalance() - nImmatureBalance)));
+        if (nImmatureBalance > 0)
+            obj.push_back(Pair("immature_balance", ValueFromAmount(nImmatureBalance)));
         if (!fLiteMode)
             obj.push_back(Pair("privatesend_balance", ValueFromAmount(pwalletMain->GetAnonymizedBalance())));
     }
