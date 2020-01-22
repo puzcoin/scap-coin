@@ -201,44 +201,6 @@ struct CMainSignals {
     boost::signals2::signal<void(const CBlock&, const CValidationState&)> BlockChecked;
 } g_signals;
 
-} // anon namespace
-
-void RegisterValidationInterface(CValidationInterface* pwalletIn)
-{
-    g_signals.SyncTransaction.connect(boost::bind(&CValidationInterface::SyncTransaction, pwalletIn, _1, _2));
-// XX42 g_signals.EraseTransaction.connect(boost::bind(&CValidationInterface::EraseFromWallet, pwalletIn, _1));
-    g_signals.UpdatedTransaction.connect(boost::bind(&CValidationInterface::UpdatedTransaction, pwalletIn, _1));
-    g_signals.SetBestChain.connect(boost::bind(&CValidationInterface::SetBestChain, pwalletIn, _1));
-    g_signals.Inventory.connect(boost::bind(&CValidationInterface::Inventory, pwalletIn, _1));
-    g_signals.Broadcast.connect(boost::bind(&CValidationInterface::ResendWalletTransactions, pwalletIn));
-    g_signals.BlockChecked.connect(boost::bind(&CValidationInterface::BlockChecked, pwalletIn, _1, _2));
-}
-
-void UnregisterValidationInterface(CValidationInterface* pwalletIn)
-{
-    g_signals.BlockChecked.disconnect(boost::bind(&CValidationInterface::BlockChecked, pwalletIn, _1, _2));
-    g_signals.Broadcast.disconnect(boost::bind(&CValidationInterface::ResendWalletTransactions, pwalletIn));
-    g_signals.Inventory.disconnect(boost::bind(&CValidationInterface::Inventory, pwalletIn, _1));
-    g_signals.SetBestChain.disconnect(boost::bind(&CValidationInterface::SetBestChain, pwalletIn, _1));
-    g_signals.UpdatedTransaction.disconnect(boost::bind(&CValidationInterface::UpdatedTransaction, pwalletIn, _1));
-// XX42    g_signals.EraseTransaction.disconnect(boost::bind(&CValidationInterface::EraseFromWallet, pwalletIn, _1));
-    g_signals.SyncTransaction.disconnect(boost::bind(&CValidationInterface::SyncTransaction, pwalletIn, _1, _2));
-}
-
-void UnregisterAllValidationInterfaces()
-{
-    g_signals.BlockChecked.disconnect_all_slots();
-    g_signals.Broadcast.disconnect_all_slots();
-    g_signals.Inventory.disconnect_all_slots();
-    g_signals.SetBestChain.disconnect_all_slots();
-    g_signals.UpdatedTransaction.disconnect_all_slots();
-// XX42    g_signals.EraseTransaction.disconnect_all_slots();
-    g_signals.SyncTransaction.disconnect_all_slots();
-}
-
-void SyncWithWallets(const CTransaction& tx, const CBlock* pblock)
-{
-    g_signals.SyncTransaction(tx, pblock);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -2120,9 +2082,6 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     pindex->nMoneySupply = nMoneySupplyPrev + nValueOut - nValueIn;
     pindex->nMint = pindex->nMoneySupply - nMoneySupplyPrev;
 
-    if (!pblocktree->WriteBlockIndex(CDiskBlockIndex(pindex)))
-        return error("Connect() : WriteBlockIndex for pindex failed");
-
     int64_t nTime1 = GetTimeMicros();
     nTimeConnect += nTime1 - nTimeStart;
     LogPrint("bench", "      - Connect %u transactions: %.2fms (%.3fms/tx, %.3fms/txin) [%.2fs]\n", (unsigned)block.vtx.size(), 0.001 * (nTime1 - nTimeStart), 0.001 * (nTime1 - nTimeStart) / block.vtx.size(), nInputs <= 1 ? 0 : 0.001 * (nTime1 - nTimeStart) / (nInputs - 1), nTimeConnect * 0.000001);
@@ -2243,30 +2202,29 @@ bool static FlushStateToDisk(CValidationState& state, FlushStateMode mode)
             // First make sure all block and undo data is flushed to disk.
             FlushBlockFile();
             // Then update all block file information (which may refer to block and undo files).
-            bool fileschanged = false;
-            for (set<int>::iterator it = setDirtyFileInfo.begin(); it != setDirtyFileInfo.end();) {
-                if (!pblocktree->WriteBlockFileInfo(*it, vinfoBlockFile[*it])) {
-                    return state.Abort("Failed to write to block index");
+            {
+                std::vector<std::pair<int, const CBlockFileInfo*> > vFiles;
+                vFiles.reserve(setDirtyFileInfo.size());
+                for (std::set<int>::iterator it = setDirtyFileInfo.begin(); it != setDirtyFileInfo.end(); ) {
+                    vFiles.push_back(std::make_pair(*it, &vinfoBlockFile[*it]));
+                    setDirtyFileInfo.erase(it++);
                 }
-                fileschanged = true;
-                setDirtyFileInfo.erase(it++);
-            }
-            if (fileschanged && !pblocktree->WriteLastBlockFile(nLastBlockFile)) {
-                return state.Abort("Failed to write to block index");
-            }
-            for (set<CBlockIndex*>::iterator it = setDirtyBlockIndex.begin(); it != setDirtyBlockIndex.end();) {
-                if (!pblocktree->WriteBlockIndex(CDiskBlockIndex(*it))) {
-                    return state.Abort("Failed to write to block index");
+                std::vector<const CBlockIndex*> vBlocks;
+                vBlocks.reserve(setDirtyBlockIndex.size());
+                for (std::set<CBlockIndex*>::iterator it = setDirtyBlockIndex.begin(); it != setDirtyBlockIndex.end(); ) {
+                    vBlocks.push_back(*it);
+                    setDirtyBlockIndex.erase(it++);
                 }
-                setDirtyBlockIndex.erase(it++);
+                if (!pblocktree->WriteBatchSync(vFiles, nLastBlockFile, vBlocks)) {
+                    return state.Abort("Files to write to block index database");
+                }
             }
-            pblocktree->Sync();
             // Finally flush the chainstate (which may refer to block index entries).
             if (!pcoinsTip->Flush())
                 return state.Abort("Failed to write to coin database");
             // Update best block in wallet (so we can detect restored wallets).
             if (mode != FLUSH_STATE_IF_NEEDED) {
-                g_signals.SetBestChain(chainActive.GetLocator());
+                GetMainSignals().SetBestChain(chainActive.GetLocator());
             }
             nLastWrite = GetTimeMicros();
         }
@@ -3762,65 +3720,6 @@ bool static LoadBlockIndexDB()
     bool fLastShutdownWasPrepared = true;
     pblocktree->ReadFlag("shutdown", fLastShutdownWasPrepared);
     LogPrintf("%s: Last shutdown was prepared: %s\n", __func__, fLastShutdownWasPrepared);
-
-    //Check for inconsistency with block file info and internal state
-	if (!fLastShutdownWasPrepared && !GetBoolArg("-forcestart", false) && !GetBoolArg("-reindex", false)) {
-        unsigned int nHeightLastBlockFile = vinfoBlockFile[nLastBlockFile].nHeightLast + 1;
-        if (vSortedByHeight.size() > nHeightLastBlockFile && pcoinsTip->GetBestBlock() != vSortedByHeight[nHeightLastBlockFile].second->GetBlockHash()) {
-            //The database is in a state where a block has been accepted and written to disk, but the
-            //transaction database (pcoinsTip) was not flushed to disk, and is therefore not in sync with
-            //the block index database.
-            string strError = "";
-            if (!mapBlockIndex.count(pcoinsTip->GetBestBlock())) {
-                strError = "The wallet has been not been closed gracefully, causing the transaction database to be out of sync with the block database";
-                return false;
-            }
-            LogPrintf("%s : pcoinstip synced to block height %d, block index height %d\n", __func__,
-                      mapBlockIndex[pcoinsTip->GetBestBlock()]->nHeight, vSortedByHeight.size());
-            //get the index associated with the point in the chain that pcoinsTip is synced to
-            CBlockIndex *pindexLastMeta = vSortedByHeight[vinfoBlockFile[nLastBlockFile].nHeightLast + 1].second;
-            CBlockIndex *pindex = vSortedByHeight[0].second;
-            unsigned int nSortedPos = 0;
-            for (unsigned int i = 0; i < vSortedByHeight.size(); i++) {
-                nSortedPos = i;
-                if (vSortedByHeight[i].first == mapBlockIndex[pcoinsTip->GetBestBlock()]->nHeight + 1) {
-                    pindex = vSortedByHeight[i].second;
-                    break;
-                }
-            }
-            // Start at the last block that was successfully added to the txdb (pcoinsTip) and manually add all transactions that occurred for each block up until
-            // the best known block from the block index db.
-            CCoinsViewCache view(pcoinsTip);
-            while (nSortedPos < vSortedByHeight.size()) {
-                CBlock block;
-                if (!ReadBlockFromDisk(block, pindex)) {
-                    strError = "The wallet has been not been closed gracefully and has caused corruption of blocks stored to disk. Data directory is in an unusable state";
-                    return false;
-                }
-                vector<CTxUndo> vtxundo;
-                vtxundo.reserve(block.vtx.size() - 1);
-                uint256 hashBlock = block.GetHash();
-                for (unsigned int i = 0; i < block.vtx.size(); i++) {
-                    CValidationState state;
-                    CTxUndo undoDummy;
-                    if (i > 0)
-                        vtxundo.push_back(CTxUndo());
-                    UpdateCoins(block.vtx[i], state, view, i == 0 ? undoDummy : vtxundo.back(), pindex->nHeight);
-                    view.SetBestBlock(hashBlock);
-                }
-                if(pindex->nHeight >= pindexLastMeta->nHeight)
-                    break;
-                pindex = vSortedByHeight[++nSortedPos].second;
-            }
-            // Save the updates to disk
-            if (!view.Flush() || !pcoinsTip->Flush())
-                LogPrintf("%s : failed to flush view\n", __func__);
-            LogPrintf("%s: Last block properly recorded: #%d %s\n", __func__, pindexLastMeta->nHeight,
-                      pindexLastMeta->GetBlockHash().ToString().c_str());
-            LogPrintf("%s : pcoinstip=%d %s\n", __func__, mapBlockIndex[pcoinsTip->GetBestBlock()]->nHeight,
-                      pcoinsTip->GetBestBlock().GetHex());
-        }
-    }
 
     // Check whether we need to continue reindexing
     bool fReindexing = false;
