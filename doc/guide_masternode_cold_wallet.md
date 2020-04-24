@@ -4,7 +4,7 @@
 This guide is for a single masternode, on a Ubuntu 16.04 64bit server(1GB RAM) and will be controlled from the wallet on your local computer.
 
 First the basic requirements:
-* 1001 SCAP (https://crex24.com/exchange/SCAP-BTC)
+* 1001 SCAP (https://www.bitscap.com/Trade/index/market/scap_btc)
 * A main computer(Your everyday computer)
 * Masternode Server(The computer that will be on 24/7)
 * A unique IP address for EACH masternode
