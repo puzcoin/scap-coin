@@ -1515,25 +1515,13 @@ double ConvertBitsToDouble(unsigned int nBits)
 int64_t GetBlockValue(int nHeight)
 {
     int64_t nSubsidy = 0;
-
-    if (nHeight <= Params().LAST_POW_BLOCK()) {
-        nSubsidy = (int)(Params().MaxMoneyOut() / (10.2 * Params().LAST_POW_BLOCK() * COIN)) * COIN;
+    if(nHeight == 1) {
+	nSubsidy = 1000*COIN;
+    } else if (nHeight <= Params().LAST_POW_BLOCK()) {
+	nSubsidy = 100*COIN;
     } else if (nHeight > Params().LAST_POW_BLOCK() && nHeight <= 129600) {
-         int nDiv = div(nHeight - 1,(int)(60 * 60 * 24 / Params().TargetSpacing()) * 7.5).quot;
-         nSubsidy = (0.2 + (double)nDiv / 10) * COIN;
-    } else if (nHeight > 129600 && nHeight <= 1576800) {
-         int nDiv = div(nHeight - 1,(int)(60 * 60 * 24 / Params().TargetSpacing()) * 60).quot;
-         nSubsidy = (1.2 + (double)nDiv / 10) * COIN;
-         if (div(nHeight - 1,1440 * 30 + 19).rem == 0) 
-             nSubsidy = 200.0 * COIN;
-    } else {
         nSubsidy = 3 * COIN;
     }
-	
-	// yearly decline of production by 40% per year until reached max coin ~10M.
-    for (int i = 3 * Params().SubsidyHalvingInterval(); i <= nHeight; i += Params().SubsidyHalvingInterval()) {
-        nSubsidy -= nSubsidy * 0.4;
-	}	
 	
     return nSubsidy;
 }

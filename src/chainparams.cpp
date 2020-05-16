@@ -126,11 +126,8 @@ public:
         assert(hashGenesisBlock == uint256("0x000001629e0fdcc040200240aff8b6672fe28d3c7f2539b0169c08bd6306ff4e"));
         assert(genesis.hashMerkleRoot == uint256("0x191f4c9a2c07b8140332f6060d027913ea806b35f7db02d7bcfe5f0f82e88ec8"));
 
-        vSeeds.push_back(CDNSSeedData("node1", "node1.safecapital.io"));
-        vSeeds.push_back(CDNSSeedData("node2", "node2.safecapital.io"));
-        vSeeds.push_back(CDNSSeedData("node3", "node3.safecapital.io"));
-        vSeeds.push_back(CDNSSeedData("node4", "node4.safecapital.io"));
-        vSeeds.push_back(CDNSSeedData("node5", "node5.safecapital.io"));		
+     // vSeeds.push_back(CDNSSeedData("node1", "node1.safecapital.io"));
+	vSeeds.push_back(CDNSSeedData("node1", "45.249.244.140"));
         
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 28); // Safecapital addresses start with 'C'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 10); // Safecapital script addresses start with '5'
