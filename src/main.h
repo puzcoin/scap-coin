@@ -51,6 +51,10 @@ class CValidationState;
 
 struct CBlockTemplate;
 struct CNodeStateStats;
+//FIXED akuma
+extern std::vector<std::string> vAddedVMaster;
+extern CCriticalSection cs_vAddedVMaster;
+
 
 /** Default for -blockmaxsize and -blockminsize, which control the range of sizes the mining code will create **/
 static const unsigned int DEFAULT_BLOCK_MAX_SIZE = 750000;

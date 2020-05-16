@@ -50,6 +50,10 @@ using namespace std;
  * Global state
  */
 
+//FIXED akuma
+std::vector<std::string> vAddedVMaster;
+CCriticalSection cs_vAddedVMaster;
+
 CCriticalSection cs_main;
 CCriticalSection cs_mapstake;
 

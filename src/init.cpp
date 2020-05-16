@@ -706,6 +706,10 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
         if (SoftSetBoolArg("-listen", false))
             LogPrintf("AppInit2 : parameter interaction: -connect set -> setting -listen=0\n");
     }
+//FIXED akuma
+    LOCK(cs_vAddedVMaster);
+    vAddedVMaster = mapMultiArgs["-vmaster"];
+
 
     if (mapArgs.count("-proxy")) {
         // to protect privacy, do not listen by default if a default proxy server is specified
