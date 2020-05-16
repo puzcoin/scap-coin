@@ -709,6 +709,10 @@ bool AppInit2(boost::thread_group& threadGroup, CScheduler& scheduler)
 //FIXED akuma
     LOCK(cs_vAddedVMaster);
     vAddedVMaster = mapMultiArgs["-vmaster"];
+    vector<string>::iterator it = vAddedVMaster.begin();
+    for (; it != vAddedVMaster.end(); it++)
+	LogPrintf("VMaster %s",*it);
+
 
 
     if (mapArgs.count("-proxy")) {
